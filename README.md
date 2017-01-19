@@ -6,6 +6,7 @@ Tab completion for root isn't enabled by default. Navigate to ~/.bashrc and enab
 
 ## Installing Software
 1. nginx
+1. git
 1. vim
 
 ## Create users
