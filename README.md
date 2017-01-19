@@ -11,9 +11,12 @@ Tab completion for root isn't enabled by default. Navigate to ~/.bashrc and enab
 
 ## Users
 1. john
+
   `>> adduser john `
-  `>> visudo ` (add `john	ALL=(ALL:ALL) ALL` below the corresponding line for root)
+
+  `>> visudo` (add `john	ALL=(ALL:ALL) ALL` below the corresponding line for root)
 1. git
+
   `>> adduser git `
 
 john will be the general permission-less user whose home directory will store the website and other random files.
@@ -25,4 +28,13 @@ git will be the user that will store different git repositories (possibly set up
 1.  Check the key's password: `ssh-keygen -y`
 
 ## Clone Vim repository
+1. Configure git username and email.
+
+  ```
+  >> git config --global --edit
+  # This is Git's per-user configuration file.
+  [user]
+  	name = John Rinehart
+  	email = johnrichardrinehart@gmail.com
+  ```
 1. `git clone git@github.com:fuzzybear3965/vimrc.git`
