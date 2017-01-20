@@ -54,6 +54,18 @@ with webhooks to deploy to ~/john)
 1. `sudo ln -s /etc/nginx/sites-available/theline.design /etc/nginx/sites-enabled/theline.design`
 1. `sudo cp ssl-params.conf ssl-theline.design.conf /etc/nginx/snippets/`
 
+## DNS Records
+It's important that the DNS records are updated before letsencrypt. SSL
+certification requires a challenge to be successfully answered from the domain of
+your website. If the DNS records point to an old IP than this won't work. It
+will look as if someone else owns your website.
+
+| DNS Record Types | Host | Value | TTL | 
+|---|---|---|---|
+| A+ Dynamic DNS Record | @ | \<_Current IP_\> | Automatic |
+| CNAME Record | www | theline.design. | Automatic |
+| TXT Record | @ | google-site-verification=387ffIYWxviWZnerAZxsWvz8_OFzzpEg85zyKTRtYsM | Automatic |
+
 ## letsencrypt
 1. `sudo letsencrypt certonly -a webroot --webroot-path=/home/john/website -d theline.design -d www.theline.design`
 1. `sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048`
@@ -65,4 +77,4 @@ with webhooks to deploy to ~/john)
 1. `sudo chown root:root ~/VPSSetup/letsencrypt-renew.sh`
 1. `sudo chmod 600 ~/VPSSetup/letsencrypt-renew.sh`
 1. `sudo cp ~/VPSSetup/letsencrypt-renew.sh /home/root/`
-1. `echo "30 2 * * 1 root /bin/bash /home/root/letsencrypt-renew.sh"
+1. `echo "30 2 * * 1 root /bin/bash /home/root/letsencrypt-renew.sh"`
