@@ -45,3 +45,8 @@ with webhooks to deploy to ~/john)
 1. `chsh $(which zsh)`
 1. `git clone git@github.com:fuzzybear3965/VPSSetup.git ~/VPSFiles`
 1. `cp ~/VPSFiles/.zshrc ~`
+
+## nginx
+1. `sudo cp ~/VPSFiles/theline.design /etc/nginx/sites-available/theline.design`
+1. `sudo ln -s /etc/nginx/sites-available/theline.design /etc/nginx/sites-enabled/theline.design`
+1. `sudo cp ssl-params.conf ssl-theline.design.conf /etc/nginx/snippets/`
