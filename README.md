@@ -28,6 +28,9 @@ with webhooks to deploy to ~/john)
 1. vim
 1. tmux
 1. zsh
+1. letsencrypt
+
+*Don't forget to `sudo apt update` prior to installing.*
 
 ## vimrc repository
 1. Configure git username and email.
@@ -50,3 +53,16 @@ with webhooks to deploy to ~/john)
 1. `sudo cp ~/VPSFiles/theline.design /etc/nginx/sites-available/theline.design`
 1. `sudo ln -s /etc/nginx/sites-available/theline.design /etc/nginx/sites-enabled/theline.design`
 1. `sudo cp ssl-params.conf ssl-theline.design.conf /etc/nginx/snippets/`
+
+## letsencrypt
+1. `sudo letsencrypt certonly -a webroot --webroot-path=/home/john/website -d theline.design -d www.theline.design`
+1. `sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048`
+1. `sudo ufw allow 'Nginx Full'`
+1. `sudo ufw delete allow 'Nginx HTTP'`
+1. `sudo nginx -t`
+1. `sudo systemctl restart nginx`
+1. Visit [Qualys SSL Labs Report](https://www.ssllabs.com/ssltest/analyze.html?d=theline.design)
+1. `sudo chown root:root ~/VPSSetup/letsencrypt-renew.sh`
+1. `sudo chmod 600 ~/VPSSetup/letsencrypt-renew.sh`
+1. `sudo cp ~/VPSSetup/letsencrypt-renew.sh /home/root/`
+1. `echo "30 2 * * 1 root /bin/bash /home/root/letsencrypt-renew.sh"
