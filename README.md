@@ -29,7 +29,7 @@ with webhooks to deploy to ~/john)
 1. tmux
 1. zsh
 
-## Clone vimrc repository
+## vimrc repository
 1. Configure git username and email.
 
   ```
@@ -41,7 +41,7 @@ with webhooks to deploy to ~/john)
   ```
 1. `git clone git@github.com:fuzzybear3965/vimrc.git ~/.vim`
 
-## Terminal
+## zsh
 1. `chsh $(which zsh)`
 1. `git clone git@github.com:fuzzybear3965/VPSSetup.git ~/VPSFiles`
-1. `mv ~/VPSFiles/.zshrc ~`
+1. `cp ~/VPSFiles/.zshrc ~`
