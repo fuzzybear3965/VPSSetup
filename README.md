@@ -66,6 +66,15 @@ will look as if someone else owns your website.
 | CNAME Record | www | theline.design. | Automatic |
 | TXT Record | @ | google-site-verification=387ffIYWxviWZnerAZxsWvz8_OFzzpEg85zyKTRtYsM | Automatic |
 
+To accommodate changing the IP automatically, I have written a bash script
+`dyndns.sh`.
+
+1. Edit `~/VPSSetup/dyndns.sh` to include the domain name registrar's provided API key.
+1. `sudo chown root:root ~/VPSSetup/dyndns.sh`
+1. `sudo chmod 700 ~/VPSSetup/dyndns.sh`
+1. `sudo cp ~/VPSSetup/dyndns.sh /home/root/`
+1. `echo "5 * * * * root /bin/bash /home/root/dyndns.sh >> /var/log/dyndns.log 2>&1"`
+
 ## letsencrypt
 1. `sudo letsencrypt certonly -a webroot --webroot-path=/home/john/website -d theline.design -d www.theline.design`
 1. `sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048`
@@ -75,6 +84,6 @@ will look as if someone else owns your website.
 1. `sudo systemctl restart nginx`
 1. Visit [Qualys SSL Labs Report](https://www.ssllabs.com/ssltest/analyze.html?d=theline.design)
 1. `sudo chown root:root ~/VPSSetup/letsencrypt-renew.sh`
-1. `sudo chmod 600 ~/VPSSetup/letsencrypt-renew.sh`
+1. `sudo chmod 700 ~/VPSSetup/letsencrypt-renew.sh`
 1. `sudo cp ~/VPSSetup/letsencrypt-renew.sh /home/root/`
-1. `echo "30 2 * * 1 root /bin/bash /home/root/letsencrypt-renew.sh"`
+1. `echo "30 2 * * 1 root /bin/bash /home/root/letsencrypt-renew.sh >> /var/log/letsencrypt-renew.log 2>&1"`
