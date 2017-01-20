@@ -2,14 +2,10 @@
 How to get my VPS set up painlessly each time
 
 ## Users
-1. john
-
-  `>> adduser john `
-
-  `>> visudo` (add `john	ALL=(ALL:ALL) ALL` below the corresponding line for root)
-1. git
-
-  `>> adduser git `
+1. `adduser john`
+1. `visudo` (add `john	ALL=(ALL:ALL) ALL` below the corresponding line for root)
+1. `adduser git`
+1. `usermod -a -G www-data git` (used so it can copy to `/home/john/website/`)
 
 john will be the general permission-less user whose home directory will store
 the website and other random files.
@@ -22,13 +18,27 @@ with webhooks to deploy to ~/john)
 1. Check the key's password: `ssh-keygen -y`
 1. Add the keys to all of the servers that require them
 
+## ~/website/
+1. `mkdir /home/john/website/`
+1. `chown -R john:www-data /home/john/website/`
+1. `chmod -R 0770 /home/john/website/`
+
 ## Software
+### apt
 1. nginx
 1. git
-1. vim
+1. vim-gtk
 1. tmux
 1. zsh
 1. letsencrypt
+1. ufw
+1. nodejs
+1. gcc
+1. make
+
+
+### gem
+1. jekyll
 
 *Don't forget to `sudo apt update` prior to installing.*
 
@@ -78,8 +88,9 @@ To accommodate changing the IP automatically, I have written a bash script
 ## letsencrypt
 1. `sudo letsencrypt certonly -a webroot --webroot-path=/home/john/website -d theline.design -d www.theline.design`
 1. `sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048`
+1. `sudo ufw enable`
 1. `sudo ufw allow 'Nginx Full'`
-1. `sudo ufw delete allow 'Nginx HTTP'`
+1. (if exists) `sudo ufw delete allow 'Nginx HTTP'`
 1. `sudo nginx -t`
 1. `sudo systemctl restart nginx`
 1. Visit [Qualys SSL Labs Report](https://www.ssllabs.com/ssltest/analyze.html?d=theline.design)
@@ -87,3 +98,15 @@ To accommodate changing the IP automatically, I have written a bash script
 1. `sudo chmod 700 ~/VPSSetup/letsencrypt-renew.sh`
 1. `sudo cp ~/VPSSetup/letsencrypt-renew.sh /home/root/`
 1. `echo "30 2 * * 1 root /bin/bash /home/root/letsencrypt-renew.sh >> /var/log/letsencrypt-renew.log 2>&1"`
+1. Uncomment the SSL blocks in `/etc/nginx/sites-available/theline.design`
+1. Comment the root statement in the http block
+1. `sudo systemctl restart nginx`
+
+## webhook
+1. `su git && cd ~`
+1. `ssh-keygen -t rsa -b 4096 -C "git@theline.design"'`
+1. `git clone --bare https://github.com/fuzzybear3965/website.git website.git`
+1. `su root`
+1. `cp /home/john/VPSSetup/post-receive /home/git/website.git/hooks/`
+1. `chown git:git /home/git/website.git/hooks/post-receive`
+1. `exit`

@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# An example hook script to prepare a packed repository for use over
+# dumb transports.
+#
+# To enable this hook, rename this file to "post-update".
+
+GIT_REPO=$HOME/website.git
+TMP_GIT_CLONE=$HOME/tmp/website
+PUBLIC_WWW=/home/john/website
+
+git clone $GIT_REPO $TMP_GIT_CLONE
+jekyll build -s $TMP_GIT_CLONE -d $PUBLIC_WWW
+rm -Rf $TMP_GIT_CLONE
+chown -R git:www-data $PUBLIC_WWW/*
+chmod -R 0770 $PUBLIC_WWW/*
+exit
